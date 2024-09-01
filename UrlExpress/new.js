@@ -23,22 +23,23 @@ async function main() {
     })
 
     app.post('/', async (req, res) => {
-        // req.body = {url}
-        async function gene() {
-            let b = Math.random().toString(36).substring(2, 8)
-            const checktab = await urlTable.findOne({ token: b})
-            if (checktab){
-                gene()
+        // generaate a unique token
+        // make a new entry in db
+        // return the token in response
+        const url = req.body.url
+        const getUniqueToken = async () => {
+            const token = Math.random().toString(36).substring(2, 8)
+            const entry = await urlTable.findOne({token: token})
+            if (entry) {
+                return getUniqueToken()
             }
-            else{      
-                const body = req.body
-                body.token = b
-                await urlTable.create(body)
-                return res.json(b)
+            else{
+                return token
             }
         }
-        gene()
-
+        const token = getUniqueToken()
+        const entry = urlTable.create({token, url})
+        return res.json(token)
     })
 
     app.get('/check', async (req, res) => {

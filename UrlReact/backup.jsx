@@ -11,12 +11,31 @@ function Home() {
 
 
     function createToken(givenUrl){
+        let b = Math.random().toString(36).substring(2, 8)
 
-        let a = {
-            url : givenUrl
-        } 
-        axios.post('http://localhost:3000',a).then(res=>(setthetoken(res.data)))
-        setinputValue("") 
+        // checking token availablity in database 
+        axios.get(`http://localhost:3000/check?token=${b}`).then((res)=>(res.data)).then(data => {
+
+            // if token is available it rgenerates the token again
+            if (data){
+                createToken(givenUrl)
+            }
+
+            // if token is unique go ahead and create entry in database
+            else{
+                let a = {
+                    url : givenUrl,
+                    token : b
+                }   
+              
+                axios.post('http://localhost:3000',a)
+                setinputValue("") 
+
+                // setting token for showing on page 
+                setthetoken(b)
+            }
+            
+        })
       
     }
 
@@ -64,4 +83,4 @@ function Home() {
 
 }
 
-export default Home;
+export default Home;s
