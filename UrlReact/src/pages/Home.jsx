@@ -15,7 +15,7 @@ function Home() {
         let a = {
             url : givenUrl
         } 
-        axios.post('http://localhost:3000',a).then(res=>(setthetoken(res.data)))
+        axios.post('https://url-shortner-0f1f.onrender.com/',a).then(res=>(setthetoken(res.data)))
         setinputValue("") 
       
     }
@@ -23,7 +23,7 @@ function Home() {
     // sending slug token and getting the original url and saving it into response variable
     useEffect(() => {
         if (slug) {    
-            axios.get(`http://localhost:3000?key=${slug}`).then((res)=>(res.data)).then(data => {
+            axios.get(`https://url-shortner-0f1f.onrender.com/?key=${slug}`).then((res)=>(res.data)).then(data => {
                 setResponse(data)
                 setLoading(false)
             })
