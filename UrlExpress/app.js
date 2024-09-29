@@ -45,6 +45,6 @@ async function main() {
         const token = req.query.token  
         
     })
-    app.listen(3000)
+    app.listen(10000)
 }
 main()
